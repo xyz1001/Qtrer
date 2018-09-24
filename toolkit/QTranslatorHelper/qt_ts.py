@@ -9,20 +9,12 @@ class QtTs(object):
     def __init__(self, ts_path):
         self.ts_path = ts_path
         self.xml_tree = ElementTree.parse(ts_path)
-        self.target_language_name = ""
-        self.target_country_name = ""
+        self.target_locale_name = ""
 
-    def __get_language_name(self):
-        if self.target_country_name == "":
-            return self.target_language_name
-        else:
-            return "%s_%s" % (self.target_language_name, self.target_country_name)
-
-    def set_target_language(self, language_name, country_name=""):
-        self.target_language_name = language_name
-        self.target_country_name = country_name
+    def set_target_language(self, locale_name):
+        self.target_locale_name = locale_name
         root = self.xml_tree.getroot()
-        root.attrib["language"] = self.__get_language_name()
+        root.attrib["language"] = self.target_locale_name
 
     def __get_source_strings(self, translation_table):
         if "en" in translation_table:
@@ -32,16 +24,22 @@ class QtTs(object):
             exit(-1)
 
     def __get_target_strings(self, translation_table):
-        logging.info("language_name: %s, target_language_name: %s" %
-                     (self.__get_language_name(), self.target_language_name))
-        if self.__get_language_name() in translation_table:
-            return translation_table[self.__get_language_name()]
-        elif self.target_language_name in translation_table:
-            return translation_table[self.target_language_name]
-        else:
-            logging.error("Fail to translate to %s",
-                          self.__get_language_name())
-            exit(-1)
+        logging.info("target locale name: %s" %
+                     (self.target_locale_name))
+        if self.target_locale_name in translation_table:
+            logging.info("Found transltion %s" % self.target_locale_name)
+            return translation_table[self.target_locale_name]
+
+        language_name = self.target_locale_name[0:2]
+        for key in translation_table.keys():
+            if key.startswith(language_name):
+                logging.info("Found transltion %s" % key)
+                return translation_table[key]
+
+        logging.error("Fail to translate to %s",
+                      self.target_locale_name)
+        raise KeyError("%s: Target translation NOT found" %
+                       self.target_locale_name)
 
     def __get_translation(self, source_string, source_strings, target_strings):
         try:

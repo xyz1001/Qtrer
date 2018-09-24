@@ -17,19 +17,19 @@ if __name__ == "__main__":
     translations["zh_HK"] = zh_HK_translator.generate(translations["zh_CN"])
 
     zh_CN_ts = QtTs("./raw/zh_CN.ts")
-    zh_CN_ts.set_target_language("zh", "CN")
+    zh_CN_ts.set_target_language("zh_CN")
     zh_CN_ts.translate(parser.translations)
     zh_CN_ts.save("./ok/zh_CN.ts")
     print("")
 
     zh_TW_ts = QtTs("./raw/zh_TW.ts")
-    zh_TW_ts.set_target_language("zh", "TW")
+    zh_TW_ts.set_target_language("zh_TW")
     zh_TW_ts.translate(parser.translations)
     zh_TW_ts.save("./ok/zh_TW.ts")
     print("")
 
     zh_HK_ts = QtTs("./raw/zh_HK.ts")
-    zh_HK_ts.set_target_language("zh", "HK")
+    zh_HK_ts.set_target_language("zh_HK")
     zh_HK_ts.translate(parser.translations)
     zh_HK_ts.save("./ok/zh_HK.ts")
     print("")
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     print("")
 
     ko_ts = QtTs("./raw/ko.ts")
-    ko_ts.set_target_language("ko", "KR")
+    ko_ts.set_target_language("ko_KR")
     ko_ts.translate(parser.translations)
     ko_ts.save("./ok/ko.ts")
     print("")

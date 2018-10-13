@@ -17,9 +17,14 @@ class ExcelParser(object):
         for i in range(0, len(table)):
             if table[i][0].value in self.translations:
                 continue
+            if table[i][0].value is None:
+                continue
             self.translations[table[i][0].value] = []
             for j in range(1, len(table[0])):
-                self.translations[table[i][0].value].append(table[i][j].value)
+                string = table[i][j].value
+                if string is None:
+                    string = ""
+                self.translations[table[i][0].value].append(string)
 
 
 if __name__ == "__main__":

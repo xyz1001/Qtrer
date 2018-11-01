@@ -17,8 +17,8 @@ class QtTs(object):
         root.attrib["language"] = self.target_locale_name
 
     def __get_source_strings(self, translation_table):
-        if "en" in translation_table:
-            return translation_table["en"]
+        if "source" in translation_table:
+            return translation_table["source"]
         else:
             logging.critical("No EN language translation found")
             exit(-1)

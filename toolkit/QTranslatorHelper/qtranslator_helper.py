@@ -3,14 +3,22 @@
 
 import os
 import logging
+import sys
 
 from excel_parser import ExcelParser
 from qt_ts import QtTs
 from opencc_translator import OpenccTranslator
 
 if __name__ == "__main__":
-    translation_file_dir = input("Input translation file dir: ")
-    qt_ts_file_dir = input("input Qt ts file dir: ")
+    if len(sys.argv)<2:
+        print("usage:", sys.argv[0],"<project_dir>")
+        print("\nMust ensure that translation excel is in \"PROJECT_DIR/doc/translation\", \
+\nand qs files in \"PROJECT_DIR/translation\"")
+        exit(0)
+
+    project_dir = sys.argv[1]
+    translation_file_dir = project_dir + "/doc/translation"
+    qt_ts_file_dir = project_dir + "/translation"
 
     translation = {}
     for item in os.listdir(translation_file_dir):

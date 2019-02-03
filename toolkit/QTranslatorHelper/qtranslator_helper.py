@@ -42,11 +42,10 @@ if __name__ == "__main__":
         if not file_path.endswith(".ts"):
             continue
 
-        qt_ts = QtTs(file_path)
+        qt_ts = QtTs(file_path, translation)
         locale_name = os.path.splitext(os.path.basename(file_path))[0]
-        qt_ts.set_target_language(locale_name)
         try:
-            qt_ts.translate(translation)
+            qt_ts.tr(locale_name)
         except KeyError as e:
             logging.error(e.args)
         qt_ts.save(file_path)

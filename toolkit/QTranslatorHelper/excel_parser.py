@@ -6,25 +6,29 @@ import logging
 
 
 class ExcelParser(object):
-    def __init__(self):
-        self.translations = {}
-
-    def parse(self, excel_path):
+    def parse(self, excel_path, customer):
+        translations = {}
         book = openpyxl.load_workbook(excel_path)
-        sheet = book[book.sheetnames[0]]
+        all_sheet = book.get_sheet_names()
+        if customer not in all_sheet:
+            print("customer %s not in %s" % (customer, excel_path))
+            return translations
+
+        sheet = book[customer]
         table = tuple(sheet.columns)
 
         for i in range(0, len(table)):
-            if table[i][0].value in self.translations:
+            if table[i][0].value in translations:
                 continue
             if table[i][0].value is None:
                 continue
-            self.translations[table[i][0].value] = []
+            translations[table[i][0].value] = []
             for j in range(1, len(table[0])):
                 string = table[i][j].value
                 if string is None:
                     string = ""
-                self.translations[table[i][0].value].append(string)
+                translations[table[i][0].value].append(string)
+        return translations
 
 
 if __name__ == "__main__":

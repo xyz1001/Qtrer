@@ -10,8 +10,8 @@ from qt_ts import QtTs
 from opencc_translator import OpenccTranslator
 
 if __name__ == "__main__":
-    if len(sys.argv)<2:
-        print("usage:", sys.argv[0],"<project_dir>")
+    if len(sys.argv) < 2:
+        print("usage:", sys.argv[0], "<project_dir>")
         print("\nMust ensure that translation excel is in \"PROJECT_DIR/doc/translation\", \
 \nand qs files in \"PROJECT_DIR/translation\"")
         exit(0)
@@ -49,5 +49,3 @@ if __name__ == "__main__":
         except KeyError as e:
             logging.error(e.args)
         qt_ts.save(file_path)
-
-    os.system("lrelease %s/*.ts" % qt_ts_file_dir)

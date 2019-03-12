@@ -69,7 +69,7 @@ class QtTs(object):
 
     def save(self, path):
         self.xml_tree.write(path, encoding="utf-8", xml_declaration=True)
-        with open(path, "r+") as file:
+        with open(path, "r+", encoding="utf-8") as file:
             contents = file.readlines()
             contents.insert(1, "<!DOCTYPE TS>\n")
             file.seek(0)

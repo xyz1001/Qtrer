@@ -18,7 +18,7 @@ class QtTs(object):
             return []
 
     def __get_target_tr_list(self, locale_name):
-        logging.info("target locale name: %s" %locale_name)
+        logging.info("target locale name: %s" % locale_name)
         tr_list = self.__get_tr_list(locale_name)
         if tr_list:
             return tr_list
@@ -29,10 +29,8 @@ class QtTs(object):
                 logging.info("Found transltion %s" % key)
                 return self.tr_table[key]
 
-        logging.error("Fail to translate to %s",
-                      locale_name)
-        raise KeyError("%s: Target translation NOT found" %
-                       locale_name)
+        logging.error("Fail to translate to %s", locale_name)
+        raise KeyError("%s: Target translation NOT found" % locale_name)
 
     def __get_tr(self, source_string, source_tr_list, target_tr_list):
         try:
@@ -40,13 +38,14 @@ class QtTs(object):
             return target_tr_list[index]
         except (ValueError, IndexError):
             logging.error("no source string '%s' found" % source_string)
+            raise
 
     def tr(self, locale_name):
         root = self.xml_tree.getroot()
         source_tr_list = self.__get_tr_list("source")
         if not source_tr_list:
-             logging.error("no source list found")
-             exit(-1)
+            logging.error("no source list found")
+            exit(-1)
         target_tr_list = self.__get_target_tr_list(locale_name)
         en_tr_list = self.__get_target_tr_list("en")
         for context in root:
@@ -54,23 +53,22 @@ class QtTs(object):
                 if message.tag != "message":
                     continue
                 source = message.find("source")
-                target_string = self.__get_tr(
-                    source.text, source_tr_list, target_tr_list)
+                target_string = self.__get_tr(source.text, source_tr_list,
+                                              target_tr_list)
                 if target_string is None:
                     continue
-                if target_string.strip() == "":                 #若翻译词条为空，使用英文翻译
-                    target_string = self.__get_tr(
-                    source.text, source_tr_list, en_tr_list)
+                if target_string.strip() == "":  #若翻译词条为空，使用英文翻译
+                    target_string = self.__get_tr(source.text, source_tr_list,
+                                                  en_tr_list)
 
                 translation = message.find("translation")
                 translation.attrib.clear()
                 translation.text = target_string
-                logging.info("translate %s to %s" %
-                             (source.text, translation.text))
+                logging.info(
+                    "translate %s to %s" % (source.text, translation.text))
 
     def save(self, path):
-        self.xml_tree.write(path, encoding="utf-8",
-                            xml_declaration=True)
+        self.xml_tree.write(path, encoding="utf-8", xml_declaration=True)
         with open(path, "r+") as file:
             contents = file.readlines()
             contents.insert(1, "<!DOCTYPE TS>\n")

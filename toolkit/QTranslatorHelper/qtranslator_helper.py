@@ -3,11 +3,11 @@
 """Translate Qt ts file
 
 Usage:
-    qttranslator_helper.py [--ts_dir=<ts_dir> --excel_path=<excel_path>]
+    qttranslator_helper.py [--ts_dir=<ts_dir> --excel_dir=<excel_dir>]
 
 Options:
     --ts_dir=<ts_dir>                       Qt翻译文件的目录
-    --excel_path=<excel_path>               Excel翻译文件的路径
+    --excel_dir=<excel_dir>               Excel翻译文件的路径
 """
 
 import os
@@ -22,7 +22,7 @@ from opencc_translator import OpenccTranslator
 if __name__ == "__main__":
     arg = docopt.docopt(__doc__)
     qt_ts_file_dir = arg["--ts_dir"]
-    translation_file_dir = arg["--excel_path"]
+    translation_file_dir = arg["--excel_dir"]
 
     if qt_ts_file_dir is None:
         qt_ts_file_dir = "./translation"

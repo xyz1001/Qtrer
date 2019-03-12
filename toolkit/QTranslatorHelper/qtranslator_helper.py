@@ -1,24 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Translate Qt ts file
+
+Usage:
+    qttranslator_helper.py [--ts_dir=<ts_dir> --excel_path=<excel_path>]
+
+Options:
+    --ts_dir=<ts_dir>                       Qt翻译文件的目录
+    --excel_path=<excel_path>               Excel翻译文件的路径
+"""
 
 import os
 import logging
 import sys
+import docopt
 
 from excel_parser import ExcelParser
 from qt_ts import QtTs
 from opencc_translator import OpenccTranslator
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("usage:", sys.argv[0], "<project_dir>")
-        print("\nMust ensure that translation excel is in \"PROJECT_DIR/doc/translation\", \
-\nand qs files in \"PROJECT_DIR/translation\"")
-        exit(0)
+    arg = docopt.docopt(__doc__)
+    qt_ts_file_dir = arg["--ts_dir"]
+    translation_file_dir = arg["--excel_path"]
 
-    project_dir = sys.argv[1]
-    translation_file_dir = project_dir + "/doc/translation"
-    qt_ts_file_dir = project_dir + "/translation"
+    if qt_ts_file_dir is None:
+        qt_ts_file_dir = "./translation"
+    if translation_file_dir is None:
+        translation_file_dir = "./doc/translation"
 
     translation = {}
     for item in os.listdir(translation_file_dir):
@@ -48,4 +57,5 @@ if __name__ == "__main__":
             qt_ts.tr(locale_name)
         except KeyError as e:
             logging.error(e.args)
+            raise
         qt_ts.save(file_path)

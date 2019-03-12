@@ -7,7 +7,7 @@ from opencc_translator import OpenccTranslator
 
 if __name__ == "__main__":
     parser = ExcelParser()
-    parser.parse("./tr/MaxhubAirClient.xlsx")
+    parser.parse("./tr/test.xlsx")
 
     translations = parser.translations
     zh_TW_translator = OpenccTranslator("s2twp")

@@ -3,7 +3,7 @@
 """Translate Qt ts file
 
 Usage:
-    qttranslator_helper.py [--ts_dir=<ts_dir> --excel_dir=<excel_dir>]
+    qtrer [--ts_dir=<ts_dir> --excel_dir=<excel_dir>]
 
 Options:
     --ts_dir=<ts_dir>                       Qt翻译文件的目录
@@ -19,7 +19,8 @@ from excel_parser import ExcelParser
 from qt_ts import QtTs
 from opencc_translator import OpenccTranslator
 
-if __name__ == "__main__":
+
+def main():
     arg = docopt.docopt(__doc__)
     qt_ts_file_dir = arg["--ts_dir"]
     translation_file_dir = arg["--excel_dir"]
@@ -59,3 +60,7 @@ if __name__ == "__main__":
             logging.error(e.args)
             raise
         qt_ts.save(file_path)
+
+
+if __name__ == "__main__":
+    main()

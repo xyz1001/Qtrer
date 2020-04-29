@@ -3,11 +3,12 @@
 """Translate Qt ts file
 
 Usage:
-    qtrer [--ts_dir=<ts_dir> --excel_dir=<excel_dir>]
+    qtrer [--ts_dir=<ts_dir> --excel_dir=<excel_dir> --log_level=<log_level>]
 
 Options:
     --ts_dir=<ts_dir>                       Qt翻译文件的目录
-    --excel_dir=<excel_dir>               Excel翻译文件的路径
+    --excel_dir=<excel_dir>                 Excel翻译文件的路径
+    --loglevel=<log_level>                  log等级：NOTSET,DEBUG,INFO,WARN,ERROR,FATAL,CRITICAL
 """
 
 import os
@@ -24,11 +25,16 @@ def main():
     arg = docopt.docopt(__doc__)
     qt_ts_file_dir = arg["--ts_dir"]
     translation_file_dir = arg["--excel_dir"]
+    log_level = arg["--log_level"]
 
     if qt_ts_file_dir is None:
         qt_ts_file_dir = "./translation"
     if translation_file_dir is None:
         translation_file_dir = "./doc/translation"
+    if log_level is None:
+        log_level = "INFO"
+
+    logging.basicConfig(level=logging._nameToLevel[log_level.upper()])
 
     translation = {}
     for item in os.listdir(translation_file_dir):

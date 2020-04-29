@@ -3,12 +3,13 @@
 """Translate Qt ts file
 
 Usage:
-    qtrer [--ts_dir=<ts_dir> --excel_dir=<excel_dir> --log_level=<log_level>]
+    qtrer [--ts_dir=<ts_dir> --excel_dir=<excel_dir> --log_level=<log_level> --patch]
 
 Options:
     --ts_dir=<ts_dir>                       Qt翻译文件的目录
     --excel_dir=<excel_dir>                 Excel翻译文件的路径
     --loglevel=<log_level>                  log等级：NOTSET,DEBUG,INFO,WARN,ERROR,FATAL,CRITICAL
+    --patch                                 补丁翻译模式
 """
 
 import os
@@ -68,7 +69,7 @@ def main():
         if not file_path.endswith(".ts"):
             continue
 
-        qt_ts = QtTs(file_path, translation)
+        qt_ts = QtTs(file_path, translation, arg["--patch"])
         locale_name = os.path.splitext(os.path.basename(file_path))[0]
         try:
             qt_ts.tr(locale_name)

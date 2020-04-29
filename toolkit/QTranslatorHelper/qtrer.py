@@ -15,6 +15,7 @@ import os
 import logging
 import sys
 import docopt
+import pandas
 
 from excel_parser import ExcelParser
 from qt_ts import QtTs
@@ -39,12 +40,21 @@ def main():
     translation = {}
     for item in os.listdir(translation_file_dir):
         file_path = os.path.join(translation_file_dir, item)
-        if not os.path.isfile(file_path) or not file_path.endswith(".xlsx"):
+        if not os.path.isfile(file_path) or not (file_path.endswith(".xlsx") or file_path.endswith(".csv")):
             continue
+
+        temp_falg = False
+        if file_path.endswith(".csv"):
+            read_file = pandas.read_csv(file_path)
+            file_path = './__temp.xlsx'
+            read_file.to_excel(file_path, index=None, header=True)
+            temp_falg = True
 
         parser = ExcelParser()
         parser.parse(file_path)
         translation.update(parser.translations)
+        if temp_falg:
+            os.remove(file_path)
 
     zh_TW_translator = OpenccTranslator("s2twp")
     translation["zh_TW"] = zh_TW_translator.generate(translation["zh_CN"])

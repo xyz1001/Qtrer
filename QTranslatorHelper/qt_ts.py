@@ -70,10 +70,13 @@ class QtTs(object):
                                              target_tr_list)
                 if cell_tr is None:
                     continue
-                if cell_tr.strip() == "":  # 若翻译词条为空，使用英文翻译
-                    if self.patch:
+
+                if cell_tr.strip() == "-":  # 表示去掉此字符串
+                    cell_tr = " "  # 得使用空格，不能为空字符串，否则QT仍然显示字符串的ID
+                elif cell_tr.strip() == "":  # 若翻译词条为空，
+                    if self.patch:  # 补丁模式下不变
                         continue
-                    else:
+                    else:  # 使用英文翻译
                         cell_tr = self.__get_cell_tr(source.text, source_tr_list,
                                                      en_tr_list)
 

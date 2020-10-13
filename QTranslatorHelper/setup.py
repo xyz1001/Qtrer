@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='qtrer',
-    version="1.0.2",
+    version="1.0.3",
     description="对Qt翻译文件进行翻译的小工具",
     long_description="""根据翻译文档和OPENCC(简体和繁体转换)对Qt翻译文件进行翻译的小工具""",
     keywords='python Qt translate',

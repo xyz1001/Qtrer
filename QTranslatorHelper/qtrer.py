@@ -57,11 +57,15 @@ def main():
         if temp_falg:
             os.remove(file_path)
 
-    zh_TW_translator = OpenccTranslator("s2twp")
-    translation["zh_TW"] = zh_TW_translator.generate(translation["zh_CN"])
+    if "zh_TW" not in translation:
+        logging.info("zh_TW not in doc, use OpenccTranslator")
+        zh_TW_translator = OpenccTranslator("s2twp")
+        translation["zh_TW"] = zh_TW_translator.generate(translation["zh_CN"])
 
-    zh_HK_translator = OpenccTranslator("s2hk")
-    translation["zh_HK"] = zh_HK_translator.generate(translation["zh_CN"])
+    if "zh_HK" not in translation:
+        logging.info("zh_HK not in doc, use OpenccTranslator")
+        zh_HK_translator = OpenccTranslator("s2hk")
+        translation["zh_HK"] = zh_HK_translator.generate(translation["zh_CN"])
     logging.info(translation.keys())
 
     for item in os.listdir(qt_ts_file_dir):
